@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import TaskList from "./TaskList";
 
 export default function TaskApp() {
-  const [text, setText] = useState("")
+  const [text, setText] = useState("");
+  const [tasks, setTasks] = useState([]);
   
   const handleSubmit = () => {
-   
+    if (text.trim() === "") return;
+   setTasks(prevTasks => [...prevTasks, { id: Date.now(), text }]);
+   setText("");
+   console.log(tasks);
   };
 
   
@@ -16,6 +20,7 @@ export default function TaskApp() {
   
   const handleClearAll = () => {
     // TODO: set tasks to empty array
+
   };
 
   return (
@@ -26,7 +31,7 @@ export default function TaskApp() {
           type="text"
           placeholder="Type a task..."
           className="input"
-          // TODO: value={text}
+          value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSubmit();
@@ -40,7 +45,7 @@ export default function TaskApp() {
 
       {/*Render Task List and Enable Delete */}
       {/*Pass tasks and onDelete */}
-      <TaskList /* tasks={tasks} onDelete={handleDelete} */ />
+      <TaskList tasks={tasks} onDelete={handleDelete} />
 
       {/*Clear All */}
       <div className="footerRow">
